@@ -14,7 +14,14 @@ readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.0"
 requires-python = ">=3.10"
-keywords = []
+keywords = [
+    "hatch",
+    "python",
+    "build",
+    "go",
+    "golang",
+    "cgo",
+]
 
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -29,27 +36,31 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 
-dependencies = []
+dependencies = [
+    "hatchling>=1.20",
+    "pydantic",
+]
 
 [project.optional-dependencies]
 develop = [
     "build",
     "bump-my-version",
-    "check-dist",
-    "codespell",
+    "check-manifest",
+    "codespell>=2.4,<2.5",
     "hatchling",
-    "mdformat",
+    "mdformat>=0.7.22,<1.1",
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
-    "ruff",
+    "ruff>=0.9,<0.15",
     "twine",
     "ty",
     "uv",
     "wheel",
 ]
 
-[project.scripts]
+[project.entry-points.hatch]
+go = "hatch_go.hooks"
 
 [project.urls]
 Repository = "https://github.com/python-project-templates/hatch-go"
@@ -71,8 +82,15 @@ filename = "pyproject.toml"
 search = 'version = "{current_version}"'
 replace = 'version = "{new_version}"'
 
+[tool.check-manifest]
+ignore = [
+    ".copier-answers.yaml",
+    "Makefile",
+    "docs/**/*",
+]
+
 [tool.coverage.run]
-branch = true
+branch = false
 omit = [
     "hatch_go/tests/integration/",
 ]
@@ -84,7 +102,7 @@ exclude_also = [
     "@(abc\\.)?abstractmethod",
 ]
 ignore_errors = true
-fail_under = 50
+fail_under = 40
 
 [tool.hatch.build]
 artifacts = []

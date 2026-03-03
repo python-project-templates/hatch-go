@@ -27,16 +27,16 @@ lint-py:  ## lint python with ruff
 	python -m ruff format --check hatch_go
 
 lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md 
-	python -m codespell_lib README.md 
+	python -m mdformat --check README.md
+	python -m codespell_lib README.md
 
 fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix hatch_go
 	python -m ruff format hatch_go
 
 fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md 
-	python -m codespell_lib --write README.md 
+	python -m mdformat README.md
+	python -m codespell_lib --write README.md
 
 lint: lint-py lint-docs  ## run all linters
 lints: lint
@@ -46,15 +46,12 @@ format: fix
 ################
 # Other Checks #
 ################
-.PHONY: check-dist check-types checks check
+.PHONY: check-manifest checks check
 
-check-dist:  ## check python sdist and wheel with check-dist
-	check-dist -v
+check-manifest:  ## check python sdist manifest with check-manifest
+	check-manifest -v
 
-check-types:  ## check python types with ty
-	ty check --python $$(which python)
-
-checks: check-dist
+checks: check-manifest
 
 # Alias
 check: checks

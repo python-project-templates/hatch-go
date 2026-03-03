@@ -9,5 +9,14 @@ Hatch plugin for Go builds
 
 ## Overview
 
+A simple, extensible Go build plugin for [hatch](https://hatch.pypa.io/latest/). Build Python extension modules written in Go using cgo.
+
+```toml
+[tool.hatch.build.hooks.hatch-go]
+verbose = true
+path = "."
+module = "project"
+```
+
 > [!NOTE]
 > This library was generated using [copier](https://copier.readthedocs.io/en/stable/) from the [Base Python Project Template repository](https://github.com/python-project-templates/base).
