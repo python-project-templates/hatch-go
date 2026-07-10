@@ -13,7 +13,6 @@ description = "Hatch plugin for Go builds"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 version = "0.1.0"
-<<<<<<< before updating
 requires-python = ">=3.10"
 keywords = [
     "hatch",
@@ -23,10 +22,6 @@ keywords = [
     "golang",
     "cgo",
 ]
-=======
-requires-python = ">=3.11"
-keywords = []
->>>>>>> after updating
 
 classifiers = [
     "Development Status :: 3 - Alpha",
