@@ -6,7 +6,7 @@ from platform import machine as platform_machine
 from shutil import which
 from sys import platform as sys_platform
 from sysconfig import get_config_var, get_path
-from typing import List, Literal, Optional
+from typing import Literal
 
 from pydantic import BaseModel, Field, PrivateAttr, field_validator
 
@@ -57,12 +57,12 @@ def _get_python_cgo_flags() -> tuple[str, str]:
 class HatchGoBuildConfig(BaseModel):
     """Build config values for Hatch Go Builder."""
 
-    verbose: Optional[bool] = Field(default=False)
-    skip: Optional[bool] = Field(default=False)
-    name: Optional[str] = Field(default=None)
+    verbose: bool | None = Field(default=False)
+    skip: bool | None = Field(default=False)
+    name: str | None = Field(default=None)
 
     module: str = Field(description="Python module name for the Go extension.")
-    path: Optional[Path] = Field(default=None, description="Path to the Go project root directory.")
+    path: Path | None = Field(default=None, description="Path to the Go project root directory.")
 
     build_mode: BuildMode = Field(
         default="c-shared",
@@ -74,7 +74,7 @@ class HatchGoBuildConfig(BaseModel):
         description="Whether to enable CGO for the build.",
     )
 
-    go_build_flags: Optional[str] = Field(
+    go_build_flags: str | None = Field(
         default=None,
         description="Additional flags to pass to `go build`.",
     )
@@ -82,7 +82,7 @@ class HatchGoBuildConfig(BaseModel):
     # Validate path
     @field_validator("path", mode="before")
     @classmethod
-    def validate_path(cls, path: Optional[Path]) -> Path:
+    def validate_path(cls, path: Path | None) -> Path:
         if path is None:
             return Path.cwd()
         if not isinstance(path, Path):
@@ -94,9 +94,9 @@ class HatchGoBuildConfig(BaseModel):
 
 class HatchGoBuildPlan(HatchGoBuildConfig):
     build_type: BuildType = "release"
-    commands: List[str] = Field(default_factory=list)
+    commands: list[str] = Field(default_factory=list)
 
-    _libraries: List[str] = PrivateAttr(default_factory=list)
+    _libraries: list[str] = PrivateAttr(default_factory=list)
 
     def _get_platform_info(self):
         """Get platform and machine info, respecting env overrides."""
@@ -226,7 +226,7 @@ class HatchGoBuildPlan(HatchGoBuildConfig):
             copy_command = f'copy "{source_file}" "{dest_path}"'
         else:
             if which("cp") is None:
-                raise EnvironmentError("cp command not found. Ensure it is installed and available in PATH.")
+                raise OSError("cp command not found. Ensure it is installed and available in PATH.")
             library_name = f"{self.module}/{dest_name.split('/')[-1]}"
             self._libraries.append(library_name)
             copy_command = f'cp -f "{source_file}" "{dest_path}"'
