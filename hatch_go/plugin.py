@@ -17,7 +17,7 @@ __all__ = ("HatchGoBuildHook",)
 log = getLogger(__name__)
 
 
-class HatchGoBuildHook(BuildHookInterface[HatchGoBuildConfig]):
+class HatchGoBuildHook(BuildHookInterface):
     """The hatch-go build hook."""
 
     PLUGIN_NAME = "hatch-go"
