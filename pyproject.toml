@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "hatchling",
+    "hatchling!=1.32.1",
 ]
 build-backend = "hatchling.build"
 
@@ -36,7 +36,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "hatchling>=1.20",
+    "hatchling>=1.20,!=1.32.1",
     "pydantic",
 ]
 
@@ -46,7 +46,7 @@ develop = [
     "bump-my-version",
     "check-manifest",
     "codespell>=2.4,<2.5",
-    "hatchling",
+    "hatchling!=1.32.1",
     "mdformat>=0.7.22,<1.1",
     "mdformat-tables>=1",
     "pytest",
