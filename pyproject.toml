@@ -47,7 +47,12 @@ develop = [
     "check-manifest",
     "codespell>=2.4,<2.5",
     "hatchling",
+<<<<<<< before updating
     "mdformat>=0.7.22,<1.1",
+=======
+    "mdformat",
+    "mdformat-frontmatter",
+>>>>>>> after updating
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
@@ -91,7 +96,7 @@ ignore = [
 [tool.coverage.run]
 branch = false
 omit = [
-    "hatch_go/tests/integration/",
+    "hatch_go/tests/integration/*",
 ]
 
 [tool.coverage.report]
