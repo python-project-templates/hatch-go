@@ -1,3 +1,4 @@
+from importlib import import_module
 from os import listdir
 from pathlib import Path
 from shutil import rmtree
@@ -61,10 +62,10 @@ class TestProject:
         here = Path(__file__).parent / project_folder
         path.insert(0, str(here))
         try:
-            import project.project
+            project = import_module("project.project")
 
-            assert project.project.hello() == "A string from Go"
-            assert project.project.add(2, 3) == 5
-            assert project.project.add(-1, 1) == 0
+            assert project.hello() == "A string from Go"
+            assert project.add(2, 3) == 5
+            assert project.add(-1, 1) == 0
         finally:
             path.remove(str(here))
