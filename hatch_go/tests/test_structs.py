@@ -13,6 +13,26 @@ class TestBuildConfig:
         assert config.cgo_enabled is True
         assert config.go_build_flags is None
 
+    def test_license_collection_is_opt_in(self):
+        config = HatchGoBuildConfig(module="mymodule")
+        assert config.licenses is None
+
+    def test_license_destination(self):
+        config = HatchGoBuildConfig(module="mymodule", licenses={"destination": "mymodule/licenses/go"})
+        assert config.licenses is not None
+        assert config.licenses.destination == "mymodule/licenses/go"
+
+    @pytest.mark.parametrize(
+        "destination", ["", ".", "../licenses", "/licenses", "C:/licenses", "module\\licenses", "module/*.json", "x.dist-info/go"]
+    )
+    def test_invalid_license_destination(self, destination):
+        with pytest.raises(ValueError):
+            HatchGoBuildConfig(module="mymodule", licenses={"destination": destination})
+
+    def test_unknown_license_option(self):
+        with pytest.raises(ValueError):
+            HatchGoBuildConfig(module="mymodule", licenses={"destination": "mymodule/licenses/go", "ignore": "example.com"})
+
     def test_custom_values(self):
         config = HatchGoBuildConfig(
             module="mymodule",

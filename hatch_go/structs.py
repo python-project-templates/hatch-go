@@ -10,6 +10,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, PrivateAttr, field_validator
 
+from .licenses import GoLicenseConfig
+
 __all__ = (
     "HatchGoBuildConfig",
     "HatchGoBuildPlan",
@@ -63,6 +65,7 @@ class HatchGoBuildConfig(BaseModel):
 
     module: str = Field(description="Python module name for the Go extension.")
     path: Path | None = Field(default=None, description="Path to the Go project root directory.")
+    licenses: GoLicenseConfig | None = Field(default=None, description="Optional Go dependency license collection.")
 
     build_mode: BuildMode = Field(
         default="c-shared",
@@ -97,6 +100,7 @@ class HatchGoBuildPlan(HatchGoBuildConfig):
     commands: list[str] = Field(default_factory=list)
 
     _libraries: list[str] = PrivateAttr(default_factory=list)
+    _build_environment: dict[str, str] = PrivateAttr(default_factory=dict)
 
     def _get_platform_info(self):
         """Get platform and machine info, respecting env overrides."""
@@ -153,6 +157,7 @@ class HatchGoBuildPlan(HatchGoBuildConfig):
         cgo_cflags, cgo_ldflags = _get_python_cgo_flags()
         go_env["CGO_CFLAGS"] = cgo_cflags
         go_env["CGO_LDFLAGS"] = cgo_ldflags
+        self._build_environment = go_env
 
         # Construct env prefix for the command
         if platform == "win32":
