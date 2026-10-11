@@ -25,16 +25,16 @@ lint-py:  ## lint python with ruff
 	python -m ruff format --check hatch_go
 
 lint-docs:  ## lint docs with mdformat and codespell
-	python -m mdformat --check README.md $(wildcard docs/src) 
-	python -m codespell_lib README.md $(wildcard docs/src) 
+	python -m mdformat --check README.md $(wildcard docs/src)
+	python -m codespell_lib README.md $(wildcard docs/src)
 
 fix-py:  ## autoformat python code with ruff
 	python -m ruff check --fix hatch_go
 	python -m ruff format hatch_go
 
 fix-docs:  ## autoformat docs with mdformat and codespell
-	python -m mdformat README.md $(wildcard docs/src) 
-	python -m codespell_lib --write README.md $(wildcard docs/src) 
+	python -m mdformat README.md $(wildcard docs/src)
+	python -m codespell_lib --write README.md $(wildcard docs/src)
 
 lint: lint-py lint-docs  ## run all linters
 lints: lint
@@ -44,7 +44,7 @@ format: fix
 ################
 # Other Checks #
 ################
-.PHONY: check-manifest checks check
+.PHONY: check-manifest check-types checks check
 
 check-manifest:  ## check python sdist manifest with check-manifest
 	check-manifest -v
@@ -52,7 +52,7 @@ check-manifest:  ## check python sdist manifest with check-manifest
 check-types:  ## check python types with ty
 	ty check --python $$(which python)
 
-checks: check-dist check-types
+checks: check-manifest check-types
 
 # Alias
 check: checks
