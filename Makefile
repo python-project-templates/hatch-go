@@ -50,7 +50,7 @@ check-manifest:  ## check python sdist manifest with check-manifest
 	check-manifest -v
 
 check-types:  ## check python types with ty
-	ty check --python $$(which python)
+	python -m ty check
 
 checks: check-manifest check-types
 
