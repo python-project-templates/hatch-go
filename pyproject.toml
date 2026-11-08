@@ -48,8 +48,13 @@ develop = [
     "codespell>=2.4,<2.5",
     "editables",
     "hatchling",
+<<<<<<< before updating
     "mdformat>=0.7.22,<1.1",
     "mdformat-frontmatter",
+=======
+    "mdformat",
+    "mdformat-myst",
+>>>>>>> after updating
     "mdformat-tables>=1",
     "pytest",
     "pytest-cov",
